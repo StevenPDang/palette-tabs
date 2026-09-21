@@ -59,7 +59,7 @@ input::placeholder,
   color: var(--muted);
 }
 
-input:disabled {
+input:read-only {
   cursor: progress;
 }
 

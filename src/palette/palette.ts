@@ -1,6 +1,7 @@
 import { getUrlDomain } from "../search/normalize";
 import type { TabsRequest, TabsResponse } from "../shared/messages";
 import type { TabCandidate, TabSearchResult } from "../shared/tabs";
+import { formatRecency } from "./format-recency";
 import {
   createPaletteState,
   getActiveResult,
@@ -9,29 +10,36 @@ import {
 } from "./palette-state";
 
 const searchInput = getRequiredElement<HTMLInputElement>("#tab-search");
+const paletteElement = getRequiredElement<HTMLElement>("#palette");
 const resultsElement = getRequiredElement<HTMLUListElement>("#tab-results");
 const emptyState = getRequiredElement<HTMLElement>("#empty-state");
 const statusElement = getRequiredElement<HTMLElement>("#palette-status");
 
 let state = createPaletteState([]);
 let windowLabels = new Map<number, string>();
+let isActivating = false;
 
 searchInput.focus();
 bindEvents();
 await loadTabs();
 
-async function loadTabs(): Promise<void> {
+async function loadTabs(successMessage?: string): Promise<void> {
   const response = await sendTabsRequest({ type: "tabs:list" });
   if (response?.type !== "tabs:list") {
     statusElement.textContent = "Could not read open tabs";
     emptyState.textContent = "Try closing and reopening Simple Tabs";
     emptyState.hidden = false;
+    paletteElement.setAttribute("aria-busy", "false");
     return;
   }
 
-  state = createPaletteState(response.tabs);
+  state = updateQuery(createPaletteState(response.tabs), searchInput.value);
   windowLabels = createWindowLabels(response.tabs);
   render();
+  if (successMessage !== undefined) {
+    statusElement.textContent = successMessage;
+  }
+  paletteElement.setAttribute("aria-busy", "false");
 }
 
 function bindEvents(): void {
@@ -111,7 +119,13 @@ function createResultOption(
 }
 
 async function activate(result: TabSearchResult): Promise<void> {
-  searchInput.disabled = true;
+  if (isActivating) {
+    return;
+  }
+
+  isActivating = true;
+  searchInput.readOnly = true;
+  paletteElement.setAttribute("aria-busy", "true");
   statusElement.textContent = "Opening tab…";
   const response = await sendTabsRequest({
     type: "tabs:activate",
@@ -123,11 +137,14 @@ async function activate(result: TabSearchResult): Promise<void> {
     return;
   }
 
-  searchInput.disabled = false;
-  statusElement.textContent =
-    response?.type === "tabs:activate" && response.result.status === "not-found"
-      ? "That tab was just closed"
-      : "Could not open that tab";
+  searchInput.readOnly = false;
+  isActivating = false;
+  if (response?.type === "tabs:activate" && response.result.status === "not-found") {
+    await loadTabs("That tab was closed · Results refreshed");
+  } else {
+    paletteElement.setAttribute("aria-busy", "false");
+    statusElement.textContent = "Could not open that tab";
+  }
   searchInput.focus();
 }
 
@@ -145,7 +162,8 @@ function formatContext(tab: TabCandidate): string {
   const parts = [
     getUrlDomain(tab.url) || tab.url || "Restricted page",
     windowLabels.get(tab.windowId) ?? "Window",
-    tab.group?.title || null,
+    tab.group === null ? null : tab.group.title || "Unnamed group",
+    formatRecency(tab.lastAccessed) || null,
   ];
   return parts.filter((part): part is string => part !== null).join(" · ");
 }
