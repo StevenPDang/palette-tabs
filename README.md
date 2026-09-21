@@ -1,4 +1,4 @@
-# Simple Tabs
+# Palette Tabs
 
 Simple Tabs is a keyboard-first Firefox extension for reaching any open tab without
 manually opening tab groups or scanning browser windows. Press one shortcut, enter a
