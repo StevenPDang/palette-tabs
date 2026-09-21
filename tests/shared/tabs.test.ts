@@ -38,10 +38,10 @@ describe("shared tab contracts", () => {
     const browserTabs: BrowserTabs = new FakeBrowserTabs();
 
     await expect(
-      browserTabs.activateTab({ tabId: 11, windowId: 1, groupId: 101 }),
+      browserTabs.activateTab({ tabId: 11 }),
     ).resolves.toEqual({ status: "activated" });
     await expect(
-      browserTabs.activateTab({ tabId: 999, windowId: 1, groupId: null }),
+      browserTabs.activateTab({ tabId: 999 }),
     ).resolves.toEqual({ status: "not-found" });
   });
 });

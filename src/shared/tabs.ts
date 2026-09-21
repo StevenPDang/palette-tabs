@@ -14,8 +14,6 @@ export interface TabCandidate {
 
 export interface TabActivationTarget {
   readonly tabId: number;
-  readonly windowId: number;
-  readonly groupId: number | null;
 }
 
 export type TabMatchField = "title" | "domain" | "url";
