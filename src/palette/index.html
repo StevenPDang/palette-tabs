@@ -17,6 +17,10 @@
         <input
           id="tab-search"
           type="search"
+          role="combobox"
+          aria-autocomplete="list"
+          aria-controls="tab-results"
+          aria-expanded="true"
           placeholder="Search open tabs"
           autocomplete="off"
           spellcheck="false"
@@ -24,7 +28,15 @@
         />
         <kbd>Esc</kbd>
       </label>
-      <p id="platform-status" class="status" role="status">Checking Firefox support…</p>
+      <ul id="tab-results" class="results" role="listbox"></ul>
+      <p id="empty-state" class="empty-state" hidden>No matching open tabs</p>
+      <footer class="palette-footer">
+        <p id="palette-status" class="status" role="status">Loading open tabs…</p>
+        <p class="keyboard-hints" aria-hidden="true">
+          <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+          <span><kbd>↵</kbd> open</span>
+        </p>
+      </footer>
     </main>
     <script type="module" src="./palette.ts"></script>
   </body>
