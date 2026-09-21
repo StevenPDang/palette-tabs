@@ -24,15 +24,14 @@ Test environment:
 - [x] Arrow keys and Enter activate a selected tab.
 - [x] Cross-window and collapsed-group activation complete from the background worker.
 
-## Final manual checks
+## Final manual checks — passed
 
-- [ ] With the palette open, close a displayed tab elsewhere, select the stale result,
+- [x] With the palette open, close a displayed tab elsewhere, select the stale result,
   and verify the palette announces that results were refreshed without losing focus.
-- [ ] Inspect the popup with Firefox Accessibility Inspector: the search control is a
+- [x] Inspect the popup with Firefox Accessibility Inspector: the search control is a
   combobox, results are listbox options, the active option is selected, and status
   changes are announced.
-- [ ] Check keyboard focus, text contrast, truncation, and scrolling with eight results.
-- [ ] Confirm the extension console has no errors during the complete flow.
+- [x] Check keyboard focus, text contrast, truncation, and scrolling with eight results.
+- [x] Confirm the extension console has no errors during the complete flow.
 
-Task 6 and final release acceptance remain open until these manual checks are marked
-complete.
+The Firefox MVP acceptance gate is complete.
