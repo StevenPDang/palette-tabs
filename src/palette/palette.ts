@@ -4,6 +4,7 @@ import type { TabCandidate, TabSearchResult } from "../shared/tabs";
 import { formatRecency } from "./format-recency";
 import {
   createPaletteState,
+  cycleSelection,
   getActiveResult,
   moveSelection,
   updateQuery,
@@ -49,6 +50,15 @@ function bindEvents(): void {
   });
 
   searchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Tab" && state.results.length > 0) {
+      event.preventDefault();
+      if (!isActivating) {
+        state = cycleSelection(state, event.shiftKey ? -1 : 1);
+        render();
+      }
+      return;
+    }
+
     if (event.key === "ArrowDown" || event.key === "ArrowUp") {
       event.preventDefault();
       state = moveSelection(state, event.key === "ArrowDown" ? 1 : -1);

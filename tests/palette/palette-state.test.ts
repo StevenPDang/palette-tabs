@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   createPaletteState,
+  cycleSelection,
   getActiveResult,
   moveSelection,
   updateQuery,
@@ -42,6 +43,15 @@ describe("palette state", () => {
     const atEnd = moveSelection(initialState, 20);
     expect(atEnd.activeIndex).toBe(2);
     expect(moveSelection(atEnd, -20).activeIndex).toBe(0);
+  });
+
+  it("cycles Tab selection forward and backward across result boundaries", () => {
+    const initialState = createPaletteState(makeTabs(3));
+
+    const wrappedBackward = cycleSelection(initialState, -1);
+    expect(wrappedBackward.activeIndex).toBe(2);
+    expect(cycleSelection(wrappedBackward, 1).activeIndex).toBe(0);
+    expect(cycleSelection(initialState, 1).activeIndex).toBe(1);
   });
 
   it("returns no active result when a query has no matches", () => {

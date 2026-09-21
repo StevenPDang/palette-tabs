@@ -35,6 +35,26 @@ export function moveSelection(
   return { ...state, activeIndex };
 }
 
+export function cycleSelection(
+  state: PaletteState,
+  offset: 1 | -1,
+): PaletteState {
+  if (state.results.length === 0) {
+    return { ...state, activeIndex: -1 };
+  }
+
+  if (state.activeIndex < 0) {
+    return {
+      ...state,
+      activeIndex: offset === 1 ? 0 : state.results.length - 1,
+    };
+  }
+
+  const activeIndex =
+    (state.activeIndex + offset + state.results.length) % state.results.length;
+  return { ...state, activeIndex };
+}
+
 export function getActiveResult(state: PaletteState): TabSearchResult | null {
   return state.results[state.activeIndex] ?? null;
 }
