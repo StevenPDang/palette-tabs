@@ -2,7 +2,7 @@
 
 Test environment:
 
-- Firefox: 155.0.1
+- Firefox: 155.0.1 (minimum supported version: 142)
 - Platform: macOS
 - Extension: temporary unpacked build from `dist/manifest.json`
 

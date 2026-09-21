@@ -3,8 +3,9 @@
 ## Task 1 findings
 
 - **Manifest:** V3.
-- **Minimum Firefox version:** 139. Firefox added the `tabGroups` WebExtension API
-  in version 139; Firefox for Android does not support it.
+- **Minimum Firefox version:** 142. Firefox added the `tabGroups` WebExtension API
+  in version 139, and the manifest's data-collection declaration requires a newer
+  minimum for clean validation. Firefox for Android is outside the supported target.
 - **Palette host:** an extension action popup for the first vertical slice.
 - **Invocation:** the Manifest V3 `_execute_action` command, which behaves like a
   toolbar-action click and opens its configured popup.

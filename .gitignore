@@ -5,4 +5,5 @@ coverage/
 .env.local
 *.pem
 *.xpi
+*.zip
 web-ext-artifacts/

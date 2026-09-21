@@ -4,12 +4,12 @@ Simple Tabs is a keyboard-first Firefox extension for reaching any open tab with
 manually opening tab groups or scanning browser windows. Press one shortcut, enter a
 few title/domain/URL fragments, and press Enter to activate the best match.
 
-The MVP targets desktop Firefox 139 and newer. Chrome support is planned, but is not
+The MVP targets desktop Firefox 142 and newer. Chrome support is planned, but is not
 part of this build.
 
 ## Quick start
 
-Requirements: desktop Firefox 139+ and a current Node.js/npm installation. The
+Requirements: desktop Firefox 142+ and a current Node.js/npm installation. The
 project is currently tested with Firefox 155.0.1, Node.js 26.6.0, and npm 12.0.2.
 
 ```sh

@@ -11,6 +11,13 @@ interface ExtensionManifest {
       };
     };
   };
+  browser_specific_settings: {
+    gecko: {
+      data_collection_permissions: {
+        required: string[];
+      };
+    };
+  };
 }
 
 function readManifest(): ExtensionManifest {
@@ -25,5 +32,15 @@ describe("extension commands", () => {
     expect(manifest.commands._execute_action.suggested_key.mac).toBe(
       "Command+Shift+K",
     );
+  });
+});
+
+describe("extension data collection declaration", () => {
+  it("declares that no data is collected outside the browser", () => {
+    const manifest = readManifest();
+
+    expect(
+      manifest.browser_specific_settings.gecko.data_collection_permissions.required,
+    ).toEqual(["none"]);
   });
 });
